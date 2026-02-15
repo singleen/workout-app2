@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Workout Guide (Weeks + Alt)</title>
+  <style>
+    :root{
+      --bg:#0b0c10; --card:#12141b; --text:#eef0f6; --muted:#a7adbd;
+      --border:#242838; --accent:#4f7cff; --ok:#22c55e;
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f7fb; --card:#ffffff; --text:#0b1220; --muted:#5b6477; --border:#e6e8f0; --accent:#2f6bff; --ok:#16a34a; }
+    }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial; background:var(--bg); color:var(--text); }
+    .wrap{ max-width:560px; margin:0 auto; padding:14px; padding-bottom:28px; }
+    .row{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    h1{ font-size:20px; margin:0; }
+    .sub{ font-size:13px; color:var(--muted); margin-top:4px; line-height:1.25; }
+    .pill{ font-size:12px; color:var(--muted); border:1px solid var(--border); padding:6px 10px; border-radius:999px; white-space:nowrap; }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:18px; padding:14px; box-shadow:0 2px 12px rgba(0,0,0,.08); }
+    .tabs{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+    .tab{ padding:10px 10px; border-radius:14px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:950; }
+    .tab.active{ background:var(--accent); border-color:transparent; color:white; }
+    .days{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .daybtn{ padding:9px 10px; border-radius:14px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:950; font-size:12px; flex: 1 1 72px; text-align:center; }
+    .daybtn.active{ background:rgba(79,124,255,.18); border-color:rgba(79,124,255,.55); }
+    .title{ font-size:15px; font-weight:950; margin-top:10px; }
+    .note{ font-size:13px; color:var(--muted); margin-top:6px; }
+    .progress{ height:8px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; border:1px solid var(--border); }
+    .bar{ height:100%; width:0%; background:var(--accent); }
+    .small{ font-size:12px; color:var(--muted); }
+    .grid2{ display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-top:10px; }
+    input{ width:100%; padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:transparent; color:var(--text); font-size:14px; }
+    .btn{ width:100%; padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:950; }
+    .btn.primary{ background:var(--accent); border-color:transparent; color:white; }
+    .btn.ghost{ background:transparent; }
+    .blockTitle{ font-size:14px; font-weight:950; margin:0 0 8px 0; }
+    .item{ display:flex; gap:10px; border:1px solid var(--border); border-radius:16px; padding:12px; }
+    .chk{ width:20px; height:20px; margin-top:2px; accent-color: var(--ok); }
+    textarea{ width:100%; border-radius:14px; border:1px solid var(--border); background:transparent; color:var(--text); padding:10px 12px; font-size:13px; min-height:38px; resize:vertical; }
+    .foot{ margin-top:12px; font-size:12px; color:var(--muted); line-height:1.35; }
+    .spacer{ height:10px; }
+  
+    @media (max-width: 420px){
+      .daybtn{ font-size:11px; padding:8px 8px; }
+      .tabs{ gap:6px; }
+      .tab{ padding:9px 8px; }
+    }
+  
+
+/* ===== iPhone compatibility tweaks ===== */
+:root{
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
+}
+body{
+  padding-top: var(--safe-top);
+  padding-bottom: var(--safe-bottom);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+button, .tab, .daybtn, .pill, input, textarea{
+  font-size: 16px; /* prevent iOS auto-zoom on focus */
+  touch-action: manipulation;
+}
+.tabs, .days{ gap: 8px; }
+.tab, .daybtn{
+  min-height: 44px; /* Apple HIG tap target */
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+textarea{ min-height: 120px; }
+.header{
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="row">
+      <div>
+        <h1>Workout Guide</h1>
+        <div class="sub">Strength/Capacity • Optimized Order • Mon/Thurs = Golf • <b>Mon Alt</b> and <b>Thurs Alt</b> replace golf days when no round happens</div>
+      </div>
+      <div class="pill">Safari • offline</div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card">
+      <div class="tabs" style="grid-template-columns:repeat(4,1fr);">
+<button class="tab" id="tabW4" type="button">Strength Week</button>
+        <button class="tab" id="tabWX" type="button">Capacity Week</button>
+        <button class="tab" id="tabDL" type="button">Deload</button>
+        <button class="tab" id="tabTP" type="button">Taper</button>
+      </div>
+
+      <div class="days" id="dayButtons"></div>
+
+      <div class="row" style="margin-top:12px;">
+        <div style="min-width:0;">
+          <div class="title" id="sessionTitle"></div>
+          <div class="note" id="sessionNote"></div>
+        </div>
+        <button class="btn ghost" id="resetBtn" type="button" style="width:auto;">Reset</button>
+      </div>
+
+      <div style="margin-top:10px;">
+        <div class="row small">
+          <div>Checklist</div>
+          <div id="progressText">0/0 • 0%</div>
+        </div>
+        <div class="progress" aria-label="progress">
+          <div class="bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div>
+          <div class="small" style="margin:6px 0 6px;">Body weight (optional)</div>
+          <input id="bwInput" inputmode="decimal" placeholder="e.g., 174.2" />
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button class="btn primary" id="shareBtn" type="button">Share</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="card" id="blocksCard"></div>
+
+    <div class="foot">
+      Auto-copy: Week 2 will import Week 1 notes/weights for the same day if Week 2 day is empty (one-time), including <b>Mon Alt</b> and <b>Thurs Alt</b>.
+      <br/>Tip: Safari → Share → <b>Add to Home Screen</b>.
+    </div>
+  </div>
+
+<script>
+
+
+  // ===== Global guards (Edge/Safari) =====
+  function normalizeWeekKey(wk){
+    var allowed = {"week4":1,"weekX":1,"deload":1,"taper":1};
+    return allowed[wk] ? wk : "week4";
+  }
+  function normalizeDayKey(day){
+    day = canonicalizeAltDay(day);
+    var allowed = {"Mon":1,"Tues":1,"Wed":1,"Thurs":1,"Fri":1,"Sat":1,"Sun":1,"Mon Alt":1,"Thurs Alt":1};
+    return allowed[day] ? day : "Mon";
+  }
+
+  function canonicalizeAltDay(day){
+    if(day === "MonAlt") return "Mon Alt";
+    if(day === "ThursAlt") return "Thurs Alt";
+    return day;
+  }
+
+
+
+(function(){
+  var DAY_ORDER = ["Mon","Tues","Wed","Thurs","Fri","Sat","Sun","Mon Alt","Thurs Alt"];
+
+  var BASE_WEEK = {
+    Mon: {
+      title: "Golf Day (Active Recovery + Mobility)",
+      notes: "Keep this easy. Don’t turn Monday into another hard training day.",
+      blocks: [
+        { label:"Golf", items:["18 holes walking"] },
+        { label:"Post-golf Mobility + Core Reset (10–15 min)", items:[
+          "Hip flexor stretch: 1–2 min/side",
+          "Thoracic rotations: 2x8/side",
+          "Dead bug: 2x10/side",
+          "Side plank: 2x30 sec/side",
+          "Band pull-aparts: 2x15–20"
+        ]}
+      ]
+    },
+    Tues: {
+      title: "Upper Body Full",
+      notes: "Golf-safe strength and posture. Stop 1–2 reps short of failure.",
+      blocks: [
+        { label:"Strength", items:[
+          "1-arm DB row: 4x8–12",
+          "DB bench or pushups: 4x8–12",
+          "DB shoulder press: 3x8–12",
+          "Curls: 3x10–15",
+          "Triceps: 3x10–15",
+          "DB Flys: 3x15–20"
+        ]}
+      ]
+    },
+  Wed: {
+      title: "Heavy Legs (Strength + Muscle)",
+      notes: "Primary goal: build legs/glutes, keep muscle while leaning out.",
+      blocks: [
+        { label:"Warm-up", items:["Stairs or incline walk: 10–12 min"] },
+        { label:"Strength", items:[
+          "Leg Press: 4x6–10 (heavy)",
+          "DB RDL: 3x8–12",
+          "Walking Lunges: 3x10–12/leg",
+          "Leg Curl: 3x10–15",
+          "Calf Raise: 4x12–20",
+          "Optional: Step-downs 2x8/leg"
+        ]}
+      ]
+    },
+  Thurs: {
+      title: "Golf Day + Upper Body Microdose (≤30 min)",
+      notes: "Option A: microdose after golf. Option B: if wiped, skip lifting and do 10–12 min mobility only.",
+      blocks: [
+        { label:"Golf", items:["18 holes walking"] },
+        { label:"Upper Microdose (Option A)", items:[
+          "1-arm DB row: 3x8–12",
+          "DB bench or push-ups: 3x8–12",
+          "DB shoulder press: 2x8–12",
+          "DB Flys: 2x15–20",
+          "Optional curls/tris: 1–2 quick sets"
+        ]}
+      ]
+    },
+    Fri: {
+      title: "Ruck Day (Backpacking engine)",
+      notes: "Primary goal: pack endurance + trunk stability.",
+      blocks: [
+        { label:"Main", items:["Ruck: 40 lb, 45–60 min @ 3.3–3.7 mph"] },
+        { label:"Finish (8 min)", items:[
+          "Tib raises: 2x15–20",
+          "Single-leg balance: 2x30 sec/side",
+          "Light stretch"
+        ]}
+      ]
+    },
+  Sat: {
+      title: "Backpacking Legs + Core (Toe-Friendly)",
+      notes: "Toe-friendly backpacking legs with a strong quad pump. Keep tempo controlled; chase quality reps.",
+      blocks: [
+        { label:"3 Rounds (Toe-Friendly Backpacking Legs)", items:[
+          "Step-ups (DBs): 10/leg (3-sec slow lower)",
+          "Goblet Squat (standard): 12–15",
+          "Wall Sit: 45–60 sec",
+          "Heel-Elevated Goblet Squat: 15–20 (constant tension)",
+          "Standing Calf Raises: 20–25 (2 sec up / 3 sec down)"
+        ]},
+        { label:"Finisher (Once)", items:[
+          "Goblet Squat Partials (bottom half): 20 reps",
+          "Wall Sit: 30–45 sec"
+        ]},
+        { label:"Then", items:["P90X2 Core: 25–50 min (based on energy)"] }
+      ]
+    },
+  Sun: {
+      title: "True Recovery",
+      notes: "Rest OR yoga 45 min OR easy walk 20–30 min.",
+      blocks: [
+        { label:"Options", items:["Rest","Yoga: 45 min","Easy walk: 20–30 min"] }
+      ]
+    },
+    "Mon Alt": {
+      title: "Golf Alternative (No 18 holes)",
+      notes: "Use this on Mon/Thurs when golf doesn’t happen. Similar steps + rotational/core work without crushing recovery.",
+      blocks: [
+        { label:"Option A: Walk / Incline (Zone 2)", items:[
+          "Brisk walk OR treadmill incline: 45–60 min (easy conversational pace)",
+          "Optional: 6 x 30 sec fast walk w/ 90 sec easy"
+        ]},
+        { label:"Option B: Light Pack Hike (Backpacking specific)", items:[
+          "Ruck-lite: 20–30 lb for 30–45 min @ easy pace",
+          "Cues: tall posture, short stride uphill, steady breathing"
+        ]},
+        { label:"Mobility + Golf-Specific Core (12–18 min)", items:[
+          "Thoracic rotations: 2x8/side",
+          "Hip flexor stretch: 1–2 min/side",
+          "Glute bridge: 2x12–15",
+          "Pallof press (band): 2x10/side (anti-rotation)",
+          "Dead bug: 2x10/side",
+          "Band pull-aparts OR DB flys: 2x15–20"
+        ]}
+      ]
+    }
+    ,
+    "Thurs Alt": {
+      title: "Thursday Alternative (No Golf)",
+      notes: "Use this when Thursday golf doesn’t happen. Replace the walk with Zone 2 + keep the upper microdose.",
+      blocks: [
+        { label:"Cardio Substitute (pick 1)", items:[
+          "Incline walk Zone 2: 30–45 min (easy conversational pace)",
+          "OR ruck-lite: 20–30 lb for 25–40 min @ easy pace"
+        ]},
+        { label:"Upper Body Microdose (20–25 min)", items:[
+          "1-arm DB row: 3x8–12",
+          "DB bench or push-ups: 3x8–12",
+          "DB shoulder press: 2x8–12",
+          "DB Flys: 2x15–20",
+          "Optional curls/tris: 1–2 quick sets"
+        ]},
+        { label:"Mobility (6–10 min)", items:[
+          "Thoracic rotations: 2x8/side",
+          "Hip flexor stretch: 1–2 min/side"
+        ]}
+      ]
+    }
+
+  };
+
+  var PLAN = {
+    week4: JSON.parse(JSON.stringify(BASE_WEEK)),
+    weekX: JSON.parse(JSON.stringify(BASE_WEEK)),
+    deload: JSON.parse(JSON.stringify(BASE_WEEK)),
+    taper: JSON.parse(JSON.stringify(BASE_WEEK))
+  };
+
+  // Week 4: maintenance / lean muscle growth, heavier top sets + back-off
+  PLAN.week4.Tues.title = "Upper Body Full (Week 4 – Growth)";
+  PLAN.week4.Tues.notes = "Heavier top sets + back-off. Keep shoulder-friendly form for golf.";
+  PLAN.week4.Tues.blocks = [
+    { label:"Strength (top sets + back-off)", items:[
+      "1-arm DB row: 4x6–8 + 1x12 (back-off)",
+      "DB bench or pushups: 4x6–8 + 1x12 (back-off)",
+      "DB shoulder press: 3x8–10 (+ optional 1x12–15 back-off if shoulders feel great)",
+      "DB Flys: 2–3x10–15 (slow eccentric)",
+      "DB Curls (Biceps): 3x10–15",
+      "DB Triceps Extensions: 3x10–15"
+    ]}
+  ];
+
+  
+  // Week X: Continuation mirrors Week 4 growth structure (including back-off sets)
+  PLAN.weekX.Tues = JSON.parse(JSON.stringify(PLAN.week4.Tues));
+  PLAN.weekX.Tues.notes = "Continuation week: keep Week 4 structure incl. back-off sets. Progress only if fresh.";
+
+
+  PLAN.week4.Wed.title = "Heavy Legs (Week 4 – Growth)";
+  PLAN.week4.Wed.notes = "Heavier top sets + back-off. Stop short of form breakdown.";
+  PLAN.week4.Wed.blocks = [
+    { label:"Strength (top sets + back-off)", items:[
+      "Warm-up: stairs or incline walk 10–12 min",
+      "Leg Press: 4x6–10 (heavy) + 1x12 (back-off)",
+      "DB RDL: 3x8–12 + 1x12 (back-off)",
+      "Step-downs: 3x8/leg (controlled)",
+      "Leg Curl: 3x10–15",
+      "Calf Raise: 4x12–20",
+      "Optional: Wall Sit 1–2x45–60 sec"
+    ]}
+  ];
+  // Week X: Wed Heavy Legs (adds walking lunges for capacity)
+  PLAN.weekX.Wed = JSON.parse(JSON.stringify(PLAN.week4.Wed));
+  PLAN.weekX.Wed.blocks = [
+    { label:"Strength (top sets + back-off)", items:[
+      "Warm-up: stairs or incline walk 10–12 min",
+      "Leg Press: 4x6–10 (heavy) + 1x12 (back-off)",
+      "DB RDL: 3x8–12 + 1x12 (back-off)",
+      "Walking Lunges: 2–3x10–12/leg (moderate, stop 1–2 reps shy)",
+      "Step-downs: 3x8/leg (controlled)",
+      "Leg Curl: 3x10–15",
+      "Calf Raise: 4x12–20",
+      "Optional: Wall Sit 1–2x45–60 sec"
+    ]}
+  ];
+  PLAN.weekX.Wed.notes = "Continuation week: adds lunges for capacity. Keep loads moderate; protect toe.";
+
+  // Week X: keep Heavy Legs progression consistent with Week 4 (including back-off sets)
+  PLAN.weekX.Wed.notes = "Continuation: keep Week 4 Heavy Legs structure incl. back-off sets. Progress only if fresh.";
+
+
+  PLAN.week4.Sat.title = "Backpacking Legs + Core (Week 4 – Toe-Friendly)";
+  PLAN.week4.Sat.notes = "Keep pace smooth; don’t redline. Progress via tempo or slightly more load if available.";
+  PLAN.week4.Sat.blocks = [
+        { label:"3 Rounds (Toe-Friendly Backpacking Legs)", items:[
+          "Step-ups (DBs): 10/leg (3-sec slow lower)",
+          "Goblet Squat (standard): 12–15",
+          "Wall Sit: 45–60 sec",
+          "Heel-Elevated Goblet Squat: 15–20 (constant tension)",
+          "Standing Calf Raises: 20–25 (2 sec up / 3 sec down)"
+        ]},
+        { label:"Finisher (Once)", items:[
+          "Goblet Squat Partials (bottom half): 20 reps",
+          "Wall Sit: 30–45 sec"
+        ]},
+        { label:"Then", items:["P90X2 Core: 25–50 min (based on energy)"] }
+      ];
+
+  // ---------------------------
+  // Deload & Taper (explicit days)
+  // ---------------------------
+  function setBlocks(weekKey, dayKey, title, notes, blocks){
+    PLAN[weekKey][dayKey].title = title;
+    PLAN[weekKey][dayKey].notes = notes;
+    PLAN[weekKey][dayKey].blocks = blocks;
+  }
+
+  // DELOAD WEEK
+  setBlocks("deload","Mon","Golf + Mobility (Deload)","Easy day. Golf/walk only. 10–15 min mobility. No hard training.",[
+    {label:"Plan", items:["Golf (optional): easy walking round or 30–60 min walk","Mobility (10–15 min): hip flexor stretch, T-spine rotations, light stretching","Optional Core: dead bug 1–2x8/side"]}
+  ]);
+  setBlocks("deload","Tues","Upper Body Full (Deload)","~50–60% volume. Same weights if smooth. No back-offs. Leave 3–4 reps in reserve.",[
+    {label:"Warm-up (10–12 min)", items:[
+      "Arm Bike / Exercise Bike w/ Arms: 5–8 min (easy–moderate)",
+      "Thoracic rotations: 2x6–8/side",
+      "Band pull-aparts: 2x15–20",
+      "External rotations: 2x12–15/side"
+    ]},
+    {label:"Main", items:[
+      "1-arm DB row: 2x8",
+      "DB bench or pushups: 2x8",
+      "DB shoulder press: 2x8",
+      "DB Flys: 1–2x12–15 (light, slow)",
+      "Optional DB curls: 1x12",
+      "Optional DB triceps: 1x12"
+    ]}
+  ]);
+  setBlocks("deload","Wed","Legs (Deload)","~50–60% volume. No back-offs. Protect toe.",[
+    {label:"Main", items:[
+      "Warm-up: 8–10 min easy walk/bike",
+      "Leg press or goblet squat: 2x8",
+      "DB RDL: 2x8",
+      "Step-downs: 2x6/leg (controlled)",
+      "Calf raises: 2x15",
+      "Wall sit: 1x30 sec"
+    ]}
+  ]);
+  setBlocks("deload","Thurs","Golf + Mobility (Deload)","Golf or walk only. Mobility 10 min. Skip lifting.",[
+    {label:"Plan", items:["Golf (optional): easy walking round or 30–60 min walk","Mobility: hips + T-spine 10 min"]}
+  ]);
+  setBlocks("deload","Fri","Ruck (Easy)","Optional only. Flat terrain. Keep it easy.",[
+    {label:"Plan", items:["Optional ruck: 25–35 min @ easy pace (lighter load if needed)","Foot care + light stretch 5–10 min"]}
+  ]);
+  setBlocks("deload","Sat","Core + Mobility (Deload)","Short core only. No leg fatigue work.",[
+    {label:"Plan", items:["P90X2 Core: 15–25 min (easy–moderate)","Mobility/stretch 10 min"]}
+  ]);
+  setBlocks("deload","Sun","Rest","Full rest or easy walk 20–30 min.",[
+    {label:"Plan", items:["Rest OR easy walk 20–30 min","Light stretching if desired"]}
+  ]);
+
+  // TAPER WEEK
+  setBlocks("taper","Mon","Golf + Mobility (Taper)","Stay fresh. Minimal extras.",[
+    {label:"Plan", items:["Golf/walk as desired (easy)","Mobility 8–12 min: hips + T-spine","Optional Core: dead bug 1x8/side"]}
+  ]);
+  setBlocks("taper","Tues","Upper Body (Taper)","Very low volume. Keep reps crisp. No soreness.",[
+    {label:"Warm-up (8–10 min)", items:[
+      "Arm Bike / Exercise Bike w/ Arms: 5 min (easy)",
+      "Band pull-aparts: 1x20",
+      "External rotations: 1x15/side"
+    ]},
+    {label:"Touch Sets", items:[
+      "1-arm DB row: 1–2x6",
+      "Pushups or DB bench: 1–2x8",
+      "DB shoulder press: 1x6–8",
+      "DB Flys: 1x12 (very light, slow)",
+      "Band pull-aparts: 1–2x20"
+    ]}
+  ]);
+  setBlocks("taper","Wed","Legs (Taper)","Touch legs lightly. No fatigue. Protect toe.",[
+    {label:"Touch Sets", items:[
+      "Leg press or goblet squat: 1–2x6 (easy)",
+      "DB RDL: 1–2x6 (easy)",
+      "Calf raises: 1x15",
+      "Short walk 10–20 min"
+    ]}
+  ]);
+  setBlocks("taper","Thurs","Mobility Only (Taper)","Keep it easy. No lifting.",[
+    {label:"Plan", items:["Mobility 10–15 min (hips + T-spine)","Optional easy walk 20–30 min"]}
+  ]);
+  setBlocks("taper","Fri","Optional Easy Walk","No ruck. Stay fresh.",[
+    {label:"Plan", items:["Easy walk 20–30 min","Foot care 5 min"]}
+  ]);
+  setBlocks("taper","Sat","Core (Short)","Short, easy core only.",[
+    {label:"Plan", items:["Core: 10–15 min (dead bug / side plank)","Light stretch"]}
+  ]);
+  setBlocks("taper","Sun","Rest","Full rest.",[
+    {label:"Plan", items:["Rest"]}
+  ]);
+
+
+
+  function kChecks(week, day){ return "wg:v5:" + week + ":" + day + ":checks"; }
+  function kNotes(week, day){ return "wg:v5:" + week + ":" + day + ":notes"; }
+  function kBW(){ return "wg:v5:bodyWeight"; }
+
+  function load(key, fallback){
+    try{
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch(e){
+      return fallback;
+    }
+  }
+  function save(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){}
+  }
+
+  function hasAnyNotes(obj){
+    if(!obj) return false;
+    var ks = Object.keys(obj);
+    for(var i=0;i<ks.length;i++){
+      var v = obj[ks[i]];
+      if(String(v || "").trim().length > 0) return true;
+    }
+    return false;
+  }
+
+  function todayLabel(){
+    var d = new Date().getDay();
+    var map = ["Sun","Mon","Tues","Wed","Thurs","Fri","Sat"];
+    return map[d];
+  }
+
+  var state = { week:"week1", day: todayLabel(), checks:{}, notes:{} };
+
+  var elDayButtons = document.getElementById("dayButtons");
+  var elTitle = document.getElementById("sessionTitle");
+  var elNote = document.getElementById("sessionNote");
+  var elBlocks = document.getElementById("blocksCard");
+  var elBar = document.getElementById("progressBar");
+  var elProgText = document.getElementById("progressText");
+  var elBW = document.getElementById("bwInput");
+
+  function ensureDay(){
+    if(!PLAN[state.week] || !PLAN[state.week][state.day]) state.day = "Mon";
+  }
+
+  function setWeek(w){ w = normalizeWeekKey(w);
+    CURRENT_WEEK_KEY = w;
+state.week = w;
+    document.getElementById("tabW4").classList.toggle("active", w==="week4");
+    document.getElementById("tabWX").classList.toggle("active", w==="weekX");
+    document.getElementById("tabDL").classList.toggle("active", w==="deload");
+    document.getElementById("tabTP").classList.toggle("active", w==="taper");
+    ensureDay();
+    loadDay();
+    render();
+  }
+
+  function setDay(d){ d = normalizeDayKey(d);
+    state.day = d;
+    ensureDay();
+    loadDay();
+    render();
+  }
+
+  function loadDay(){
+    state.checks = load(kChecks(state.week, state.day), {});
+    state.notes  = load(kNotes(state.week, state.day), {});
+
+    var prevWeek = null;
+    if(state.week==="week2") prevWeek = "week1";
+    if(state.week==="week3") prevWeek = "week2";
+    if(state.week==="week4") prevWeek = "week3";
+    if(prevWeek && !hasAnyNotes(state.notes)){
+      var prev = load(kNotes(prevWeek, state.day), {});
+      if(hasAnyNotes(prev)){
+        state.notes = prev;
+        save(kNotes(state.week, state.day), state.notes);
+      }
+    }
+  }
+
+  function resetDay(){
+    state.checks = {};
+    state.notes = {};
+    save(kChecks(state.week, state.day), state.checks);
+    save(kNotes(state.week, state.day), state.notes);
+    render();
+  }
+
+  function toggleCheck(key){
+    state.checks[key] = !state.checks[key];
+    save(kChecks(state.week, state.day), state.checks);
+    renderProgress();
+  }
+
+  function setNote(key, val){
+    state.notes[key] = val;
+    save(kNotes(state.week, state.day), state.notes);
+  }
+
+  function renderDayButtons(){
+    elDayButtons.innerHTML = "";
+    for(var i=0;i<DAY_ORDER.length;i++){
+      var d = DAY_ORDER[i];
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "daybtn" + (d===state.day ? " active" : "");
+      b.textContent = (d==="Mon Alt") ? "Mon Alt" : (d==="Thurs Alt") ? "Thurs Alt" : d;
+      (function(dayName){
+        b.addEventListener("click", function(){ setDay(dayName); });
+      })(d);
+      elDayButtons.appendChild(b);
+    }
+  }
+
+  function session(){
+    state.week = normalizeWeekKey(state.week);
+    state.day = normalizeDayKey(state.day);
+    var wk = state.week;
+    var day = state.day;
+    if(!PLAN[wk] || !PLAN[wk][day]){
+      var firstDay = null;
+      if(PLAN[wk]){
+        for(var k in PLAN[wk]){ if(PLAN[wk].hasOwnProperty(k)){ firstDay = k; break; } }
+      }
+      day = firstDay || "Mon";
+      state.day = normalizeDayKey(day);
+    }
+    return PLAN[wk][state.day];
+  }
+
+  function allItemKeys(sess){
+    var keys = [];
+    for(var bi=0; bi<sess.blocks.length; bi++){
+      var blk = sess.blocks[bi];
+      for(var ii=0; ii<blk.items.length; ii++){
+        keys.push(String(bi) + ":" + String(ii));
+      }
+    }
+    return keys;
+  }
+
+  function renderProgress(){
+    var sess = session();
+    var keys = allItemKeys(sess);
+    var done = 0;
+    for(var i=0;i<keys.length;i++){
+      if(state.checks[keys[i]]) done++;
+    }
+    var pct = keys.length ? Math.round(done/keys.length*100) : 0;
+    elProgText.textContent = String(done) + "/" + String(keys.length) + " • " + String(pct) + "%";
+    elBar.style.width = String(pct) + "%";
+  }
+
+  function renderBlocks(){
+    var sess = session();
+    elBlocks.innerHTML = "";
+
+    var dayCard = document.createElement("div");
+    dayCard.className = "card";
+    dayCard.style.marginBottom = "12px";
+    dayCard.innerHTML =
+      '<div class="blockTitle">Day Notes</div>' +
+      '<textarea id="dayNotesTA" placeholder="Sleep, soreness, golf feel, tweaks, energy, etc."></textarea>';
+    elBlocks.appendChild(dayCard);
+
+    var dayNotesKey = "daynotes";
+    var dayTA = dayCard.querySelector("#dayNotesTA");
+    dayTA.value = state.notes[dayNotesKey] || "";
+    dayTA.addEventListener("input", function(e){ setNote(dayNotesKey, e.target.value); });
+
+    for(var bi=0; bi<sess.blocks.length; bi++){
+      var blk = sess.blocks[bi];
+
+      var blockDiv = document.createElement("div");
+      blockDiv.className = "card";
+      blockDiv.style.marginBottom = "12px";
+
+      var h = document.createElement("div");
+      h.className = "blockTitle";
+      h.textContent = blk.label;
+      blockDiv.appendChild(h);
+
+      for(var ii=0; ii<blk.items.length; ii++){
+        var item = blk.items[ii];
+        var key = String(bi) + ":" + String(ii);
+
+        var row = document.createElement("div");
+        row.className = "item";
+
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.className = "chk";
+        cb.checked = !!state.checks[key];
+        (function(k){
+          cb.addEventListener("change", function(){ toggleCheck(k); });
+        })(key);
+
+        var right = document.createElement("div");
+        right.style.flex = "1";
+        right.style.minWidth = "0";
+
+        var line = document.createElement("div");
+        line.style.fontSize = "14px";
+        line.style.fontWeight = "900";
+        line.style.lineHeight = "1.25";
+        line.textContent = item;
+
+        var ta2 = document.createElement("textarea");
+        ta2.placeholder = "Comment / weight used (e.g., 50s x10, RPE 8)";
+        ta2.value = state.notes[key] || "";
+        (function(k2){
+          ta2.addEventListener("input", function(e){ setNote(k2, e.target.value); });
+        })(key);
+
+        var spacer = document.createElement("div");
+        spacer.style.height = "8px";
+
+        right.appendChild(line);
+        right.appendChild(spacer);
+        right.appendChild(ta2);
+
+        row.appendChild(cb);
+        row.appendChild(right);
+        blockDiv.appendChild(row);
+      }
+
+      elBlocks.appendChild(blockDiv);
+    }
+  }
+
+  function renderHeader(){
+    var sess = session();
+    var wk = (state.week==="week4") ? "Strength Week" : (state.week==="weekX" ? "Capacity Week" : (state.week==="deload" ? "Deload" : "Taper"));
+    elTitle.textContent = wk + " • " + state.day + ": " + sess.title;
+    elNote.textContent = sess.notes || "";
+  }
+
+  function render(){
+    renderDayButtons();
+    renderHeader();
+    renderBlocks();
+    renderProgress();
+  }
+
+  document.getElementById("tabW4").addEventListener("click", function(){ setWeek("week4"); });
+  document.getElementById("tabWX").addEventListener("click", function(){ setWeek("weekX"); });
+  document.getElementById("tabDL").addEventListener("click", function(){ setWeek("deload"); });
+  document.getElementById("tabTP").addEventListener("click", function(){ setWeek("taper"); });
+  document.getElementById("resetBtn").addEventListener("click", function(){ resetDay(); });
+
+  document.getElementById("shareBtn").addEventListener("click", function(){
+    var sess = session();
+    var keys = allItemKeys(sess);
+    var done = 0;
+    for(var i=0;i<keys.length;i++){
+      if(state.checks[keys[i]]) done++;
+    }
+    var pct = keys.length ? Math.round(done/keys.length*100) : 0;
+
+    var moveNotes = [];
+    for(var j=0;j<keys.length && moveNotes.length<30;j++){
+      var k = keys[j];
+      var v = state.notes[k] ? String(state.notes[k]).trim() : "";
+      if(v) moveNotes.push("• " + v);
+    }
+
+    var dayNotes = state.notes["daynotes"] ? String(state.notes["daynotes"]).trim() : "";
+    var dayNotesSection = dayNotes ? ("\nDay Notes:\n" + dayNotes) : "";
+    var moveNotesSection = moveNotes.length ? ("\nMove Notes:\n" + moveNotes.join("\n")) : "";
+
+    var wk = (state.week==="week4") ? "Strength Week" : (state.week==="weekX" ? "Capacity Week" : (state.week==="deload" ? "Deload" : "Taper"));
+    var txt = wk + " • " + state.day + ": " + sess.title +
+      "\nDone: " + String(done) + "/" + String(keys.length) + " (" + String(pct) + "%)" +
+      dayNotesSection + moveNotesSection;
+
+    if(navigator.share){
+      navigator.share({ text: txt }).catch(function(){});
+    }else{
+      try{
+        navigator.clipboard.writeText(txt);
+      }catch(e){
+        alert(txt);
+      }
+    }
+  });
+
+  try{
+    var saved = localStorage.getItem(kBW());
+    elBW.value = saved ? JSON.parse(saved) : "";
+  }catch(e){}
+  elBW.addEventListener("input", function(e){
+    try{ localStorage.setItem(kBW(), JSON.stringify(e.target.value)); }catch(err){}
+  });
+
+  ensureDay();
+  loadDay();
+
+  // ===== Strength Week vs Capacity Week (locked differences) =====
+  function setSession(weekKey, dayKey, title, notes, blocks){
+    if(!PLAN[weekKey] || !PLAN[weekKey][dayKey]) return;
+    PLAN[weekKey][dayKey].title = title;
+    PLAN[weekKey][dayKey].notes = notes;
+    PLAN[weekKey][dayKey].blocks = blocks;
+  }
+
+  // TUES: Upper Body Full (Strength)
+  setSession("week4","Tues","Upper Body Full (Strength)","Heavier focus. Longer rests. Stop ~1–2 reps shy of failure. Arms included.",[
+    {label:"Warm-up (10–12 min)", items:[
+      "Arm Bike / Exercise Bike w/ Arms: 5–10 min",
+      "T-spine rotations: 2x6–8/side",
+      "Band pull-aparts: 2x15–20",
+      "External rotations: 2x12–15/side"
+    ]},
+    {label:"Main", items:[
+      "1-arm DB row: 4x6–8",
+      "DB bench or pushups: 4x6–8",
+      "DB shoulder press: 3x8 + back-off (1x10–12)",
+      "DB Flys: 2x10–12",
+      "Biceps: 3x10–12",
+      "Triceps: 3x10–12"
+    ]}
+  ]);
+
+  // TUES: Upper Body Full (Capacity)
+  setSession("weekX","Tues","Upper Body Full (Capacity)","Volume + pump. Shorter rests. Stop ~2–3 reps shy of failure. Back-offs common.",[
+    {label:"Warm-up (10–12 min)", items:[
+      "Arm Bike / Exercise Bike w/ Arms: 5–10 min",
+      "T-spine rotations: 2x6–8/side",
+      "Band pull-aparts: 2x15–20",
+      "External rotations: 2x12–15/side"
+    ]},
+    {label:"Main", items:[
+      "1-arm DB row: 3x10–12 + back-off (1x12–15)",
+      "DB bench or pushups: 3x10–12 + back-off (1x12–15)",
+      "DB shoulder press: 3x10–12",
+      "DB Flys: 3x12–15",
+      "Biceps: 3x10–15",
+      "Triceps: 3x10–15"
+    ]}
+  ]);
+
+  // WED: Heavy Legs (Strength) — add leg curls after RDL; step-downs + wall sit at end
+  setSession("week4","Wed","Heavy Legs (Strength)","Strength anchor. Longer rests. Back-off on leg press only.",[
+    {label:"Main", items:[
+      "Warm-up: 8–10 min easy walk/bike",
+      "Leg press: 4x6–8 + back-off (1x10–12)",
+      "DB RDL: 3x8–10",
+      "Leg curl: 3x10–15",
+      "Calf raises: 3x12–15",
+      "Step-downs: 2x8/leg (controlled)",
+      "Wall sit: 1–2x45–60 sec"
+    ]}
+  ]);
+
+  // WED: Heavy Legs (Capacity) — include walking lunges; step-downs + wall sit at end
+  setSession("weekX","Wed","Heavy Legs (Capacity)","Volume + hiking durability. Back-offs common.",[
+    {label:"Main", items:[
+      "Warm-up: 8–10 min easy walk/bike",
+      "Leg press: 3x10–12 + back-off (1x12–15)",
+      "DB RDL: 3x10–12 + back-off (1x12–15)",
+      "Leg curl: 3x12–15",
+      "Walking lunges: 2–3x10–12/leg",
+      "Calf raises: 4x15–20",
+      "Step-downs: 2x10/leg (controlled)",
+      "Wall sit: 1–2x45–75 sec"
+    ]}
+  ]);
+
+  // SAT: Backpacking Legs + Core (same for both) — wall sit before heel-elevated; finisher includes wall sit + pulses; Ab Ripper 15 min
+  var SAT_BLOCKS = [
+    {label:"3 Rounds", items:[
+      "Step-ups (DBs): 10/leg",
+      "Goblet squat: 12",
+      "Wall sit: 45–60 sec",
+      "Heel-elevated goblet squat: 10–12",
+      "Reverse or static lunge (toe-friendly): 8–10/leg"
+    ]},
+    {label:"Finisher (do both)", items:[
+      "Wall sit: 30–45 sec",
+      "Goblet squat pulses: 20–25"
+    ]},
+    {label:"Core", items:[
+      "P90X Ab Ripper: 15 min"
+    ]}
+  ];
+  setSession("week4","Sat","Backpacking Legs + Core","Key backpacking workout. Quality reps; stay toe-friendly.", SAT_BLOCKS);
+  setSession("weekX","Sat","Backpacking Legs + Core","Key backpacking workout. Quality reps; stay toe-friendly.", SAT_BLOCKS);
+
+
+  // ===== User Tweaks (Mon Alt, Tues, Thurs Alt, Wed/Fri swap) =====
+  function safeUpdate(week, day, updater){
+    if(PLAN[week] && PLAN[week][day]) updater(PLAN[week][day]);
+  }
+
+  ["week4","weekX","deload","taper"].forEach(function(wk){
+
+    // Mon Alt tweaks
+    safeUpdate(wk,"MonAlt",function(d){
+      if(!d.blocks) return;
+      d.blocks = d.blocks.filter(function(b){
+        return !(b.label && (b.label.includes("Optional 6x30") || b.label.includes("Cues")));
+      });
+    });
+
+    // Tues warm-up -> two boxes
+    safeUpdate(wk,"Tues",function(d){
+      if(!d.blocks) return;
+      var newBlocks = [];
+      d.blocks.forEach(function(b){
+        if(b.label && b.label.toLowerCase().includes("warm")){
+          newBlocks.push({label:"Exercise Bike w/ Arms", items:["Exercise Bike w/ Arms: 5–10 min"]});
+          newBlocks.push({label:"Upper Body PT", items:["Upper Body PT"]});
+        } else {
+          newBlocks.push(b);
+        }
+      });
+      d.blocks = newBlocks;
+    });
+
+    // Thurs Alt mobility reorder + rename
+
+    safeUpdate(wk,"Thurs Alt",function(d){
+      if(!d.blocks) return;
+      var mobility = {label:"Upper Body PT", items:["Upper Body PT"]};
+      d.blocks = d.blocks.filter(function(b){
+        return !(b.label && b.label.toLowerCase().includes("mobility"));
+      });
+      d.blocks.unshift(mobility);
+    });
+
+
+    safeUpdate(wk,"ThursAlt",function(d){
+      if(!d.blocks) return;
+      var mobility = {label:"Upper Body PT", items:["Upper Body PT"]};
+      d.blocks = d.blocks.filter(function(b){
+        return !(b.label && b.label.toLowerCase().includes("mobility"));
+      });
+      d.blocks.unshift(mobility);
+    });
+
+    // Swap Wed and Fri workouts
+    if(PLAN[wk] && PLAN[wk]["Wed"] && PLAN[wk]["Fri"]){
+      var temp = PLAN[wk]["Wed"];
+      PLAN[wk]["Wed"] = PLAN[wk]["Fri"];
+      PLAN[wk]["Fri"] = temp;
+    }
+
+  });
+
+  render();
+})();
+
+  // Thurs Alt – Upper Body Microdose (Updated, Golf-Safe)
+  (function(){
+    var blocks = [
+      { label:"Warm-up (5–7 min)", items:[
+        "Arm Bike / Exercise Bike w/ Arms: 5 min (easy–moderate)",
+        "Band Pull-Aparts: 1x20",
+        "External Rotations: 1x15/side"
+      ]},
+      { label:"Upper Body Microdose (20–30 min cap)", items:[
+        "1-Arm DB Row: 3x8–10 (leave ~2 RIR)",
+        "Pushups (feet-elevated or tempo): 3x8–12",
+        "DB Shoulder Press (neutral grip): 2x8–10",
+        "Optional Back-off: Shoulder Press 1x12–15 (only if shoulders feel great)",
+        "Band Pull-Aparts OR Light DB Flys: 2x15–20",
+        "Optional Arms: DB Curls 1–2x12–15; DB Triceps 1–2x12–15"
+      ]}
+    ];
+    ["week1","week2","week3","week4","weekX"].forEach(function(w){
+      if(PLAN[w] && PLAN[w]["Thurs Alt"]) {
+        PLAN[w]["Thurs Alt"].blocks = blocks;
+      }
+    });
+  })();
+
+</script>
+<script>
+// iOS Add-to-Home-Screen hint (non-intrusive)
+  (function(){
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    var isStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    if (typeof navigator.standalone !== "undefined") isStandalone = isStandalone || navigator.standalone;
+    if(!isIOS || isStandalone) return;
+
+    var el = document.createElement('div');
+    el.style.position='fixed';
+    el.style.left='12px';
+    el.style.right='12px';
+    el.style.bottom='calc(12px + env(safe-area-inset-bottom))';
+    el.style.zIndex='9999';
+    el.style.background='rgba(20,20,20,0.92)';
+    el.style.color='#fff';
+    el.style.padding='10px 12px';
+    el.style.borderRadius='14px';
+    el.style.fontSize='14px';
+    el.style.lineHeight='1.25';
+    el.style.boxShadow='0 10px 30px rgba(0,0,0,0.35)';
+    el.innerHTML = '<b>Tip:</b> In Safari, tap <b>Share</b> → <b>Add to Home Screen</b> to use this like an app. <span style="opacity:.75">(tap to dismiss)</span>';
+    el.addEventListener('click', function(){ el.remove(); });
+    document.body.appendChild(el);
+  })();
+</script>
+
+</html>
