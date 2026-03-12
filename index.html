@@ -929,6 +929,180 @@ state.week = w;
 
   });
 
+
+  // ===== v45 content tweaks (safe runtime overrides) =====
+  function setSessionSafe(weekKey, dayKey, title, notes, blocks){
+    if(!PLAN[weekKey] || !PLAN[weekKey][dayKey]) return;
+    PLAN[weekKey][dayKey].title = title;
+    PLAN[weekKey][dayKey].notes = notes;
+    PLAN[weekKey][dayKey].blocks = blocks;
+  }
+
+  ["week4","weekX","deload","taper"].forEach(function(wk){
+    // Mon Alt: remove Option B section; keep clean Option A + mobility
+    if(PLAN[wk] && PLAN[wk]["Mon Alt"]){
+      PLAN[wk]["Mon Alt"].blocks = [
+        { label:"Option A: Walk / Incline (Zone 2)", items:[
+          "Brisk walk OR treadmill incline: 45–60 min (easy conversational pace)"
+        ]},
+        { label:"Mobility + Golf-Specific Core (12–18 min)", items:[
+          "Thoracic rotations: 2x8/side",
+          "Hip flexor stretch: 1–2 min/side",
+          "Glute bridge: 2x12–15",
+          "Pallof press (band): 2x10/side (anti-rotation)",
+          "Dead bug: 2x10/side",
+          "Band pull-aparts OR DB flys: 2x15–20"
+        ]}
+      ];
+    }
+
+    // Thurs Alt: Upper Body PT first, then Upper Body Microdose
+    if(PLAN[wk] && PLAN[wk]["Thurs Alt"]){
+      PLAN[wk]["Thurs Alt"].blocks = [
+        { label:"Upper Body PT", items:["Upper Body PT"]},
+        { label:"Upper Body Microdose (20–25 min)", items:[
+          "1-arm DB row: 3x8–12",
+          "DB bench or push-ups: 3x8–12",
+          "DB shoulder press: 2x8–12",
+          "DB Flys: 2x15–20",
+          "Optional curls/tris: 1–2 quick sets"
+        ]}
+      ];
+    }
+  });
+
+  // Strength Week: Tuesday tweaks
+  setSessionSafe("week4","Tues","Upper Body Full (Strength Week)","Heavier focus. Longer rests. Arms included. Finisher optional 2 rounds if golf fatigue is high, 3 rounds if fresh.",[
+    { label:"Exercise Bike w/ Arms", items:["Exercise Bike w/ Arms: 5–10 min"]},
+    { label:"Upper Body PT", items:["Upper Body PT"]},
+    { label:"Strength", items:[
+      "1-arm DB row: 4x6–8 + 1x12 (back-off)",
+      "DB bench or pushups: 4x6–8 + 1x12 (back-off)",
+      "DB shoulder press: 4x8",
+      "DB Flys: 2–3x10–15 (slow eccentric)",
+      "DB Curls (Biceps): 3x10–15",
+      "DB Triceps Extensions: 3x10–15"
+    ]},
+    { label:"Finisher", items:[
+      "2–3 rounds:",
+      "12 pull-ups",
+      "12 pushups",
+      "12 DB curls",
+      "12 Tris",
+      "12 Chest flys"
+    ]}
+  ]);
+
+  // Capacity Week: Tuesday tweaks
+  setSessionSafe("weekX","Tues","Upper Body Full (Capacity Week)","Volume + pump. Shorter rests. Finisher 2–3 rounds based on freshness.",[
+    { label:"Exercise Bike w/ Arms", items:["Exercise Bike w/ Arms: 5–10 min"]},
+    { label:"Upper Body PT", items:["Upper Body PT"]},
+    { label:"Strength", items:[
+      "1-arm DB row: 4x6–8 + 1x12 (back-off)",
+      "DB bench or pushups: 4x6–8 + 1x12 (back-off)",
+      "DB shoulder press: 3x8–10 (+ optional 1x12–15 back-off if shoulders feel great)",
+      "DB Flys: 2–3x10–15 (slow eccentric)",
+      "DB Curls (Biceps): 3x10–15",
+      "DB Triceps Extensions: 3x10–15"
+    ]},
+    { label:"Finisher", items:[
+      "2–3 rounds:",
+      "12 pull-ups",
+      "12 pushups",
+      "12 DB curls",
+      "12 Tris",
+      "12 Chest flys"
+    ]}
+  ]);
+
+  // Weekend order for Strength + Capacity:
+  // Sat = Yoga / Recovery, Sun = Backpacking Legs
+  var backpackBlocks = [
+    { label:"3 Rounds (Toe-Friendly Backpacking Legs)", items:[
+      "Step-ups (DBs): 10/leg (3-sec slow lower)",
+      "Goblet Squat (standard): 12–15",
+      "Wall Sit: 45–60 sec",
+      "Heel-Elevated Goblet Squat: 15–20 (constant tension)",
+      "Standing Calf Raises: 20–25 (2 sec up / 3 sec down)"
+    ]},
+    { label:"Finisher (Once)", items:[
+      "Goblet Squat Partials (bottom half): 20 reps",
+      "Wall Sit: 30–45 sec"
+    ]},
+    { label:"Then", items:["P90X Ab Ripper: 15 min"] }
+  ];
+  setSessionSafe("week4","Sat","Yoga / Recovery","Recovery day. Keep it easy and come out feeling better than you started.",[
+    { label:"Options", items:["Yoga: 45 min","Easy walk: 20–30 min","Mobility / stretch 10–15 min"] }
+  ]);
+  setSessionSafe("week4","Sun","Backpacking Legs","Key backpacking capacity day.", backpackBlocks);
+
+  setSessionSafe("weekX","Sat","Yoga / Recovery","Recovery day. Keep it easy and come out feeling better than you started.",[
+    { label:"Options", items:["Yoga: 45 min","Easy walk: 20–30 min","Mobility / stretch 10–15 min"] }
+  ]);
+  setSessionSafe("weekX","Sun","Backpacking Legs","Key backpacking capacity day.", backpackBlocks);
+
+
+  // ===== v47 PT detail overrides (safe runtime only) =====
+  function setSessionSafeV47(weekKey, dayKey, title, notes, blocks){
+    if(!PLAN[weekKey] || !PLAN[weekKey][dayKey]) return;
+    PLAN[weekKey][dayKey].title = title;
+    PLAN[weekKey][dayKey].notes = notes;
+    PLAN[weekKey][dayKey].blocks = blocks;
+  }
+
+  var PT_ITEMS = [
+    "1. Mobility / Tissue Prep: Prone overhead shoulder stretch with bar, Corner stretch, Doorway shoulder stretch",
+    "2. Scapular Movement: Seated scapular retractions, Standing scapular retractions, One-arm shoulder rotations with bands",
+    "3. Rear Delt Activation: Reverse DB flys: 2–3 sets x 15–20 reps (light weight, slow control)",
+    "4. Neck Mobility: Seated neck stretch (side to side)"
+  ];
+
+  ["week4","weekX","deload","taper"].forEach(function(wk){
+    // Tuesday: PT detail as its own block
+    if(PLAN[wk] && PLAN[wk]["Tues"] && PLAN[wk]["Tues"].blocks){
+      var tBlocks = PLAN[wk]["Tues"].blocks.filter(function(b){
+        return !(b.label && (b.label === "Upper Body PT" || b.label.indexOf("Upper Body PT") !== -1));
+      });
+      var insertAt = 1;
+      if(tBlocks.length < 1) insertAt = 0;
+      tBlocks.splice(insertAt, 0, { label:"Upper Body PT", items: PT_ITEMS });
+      PLAN[wk]["Tues"].blocks = tBlocks;
+    }
+
+    // Thursday Alt: PT detail first, then microdose
+    if(PLAN[wk] && PLAN[wk]["Thurs Alt"]){
+      var thAltBlocks = [];
+      thAltBlocks.push({ label:"Upper Body PT", items: PT_ITEMS });
+      if(PLAN[wk]["Thurs Alt"].blocks){
+        PLAN[wk]["Thurs Alt"].blocks.forEach(function(b){
+          if(!(b.label && (b.label === "Upper Body PT" || b.label.indexOf("Upper Body PT") !== -1))){
+            thAltBlocks.push(b);
+          }
+        });
+      }
+      PLAN[wk]["Thurs Alt"].blocks = thAltBlocks;
+    }
+
+    // Regular Thursday: add corresponding PT section before any other work
+    if(PLAN[wk] && PLAN[wk]["Thurs"] && PLAN[wk]["Thurs"].blocks){
+      var thBlocks = PLAN[wk]["Thurs"].blocks.filter(function(b){
+        return !(b.label && (b.label === "Upper Body PT" || b.label.indexOf("Upper Body PT") !== -1));
+      });
+      thBlocks.unshift({ label:"Upper Body PT", items: PT_ITEMS });
+      PLAN[wk]["Thurs"].blocks = thBlocks;
+    }
+  });
+
+
+  // v49 tweak: remove Tuesday Exercise Bike block
+  ["week4","weekX","deload","taper"].forEach(function(wk){
+    if(PLAN[wk] && PLAN[wk]["Tues"] && PLAN[wk]["Tues"].blocks){
+      PLAN[wk]["Tues"].blocks = PLAN[wk]["Tues"].blocks.filter(function(b){
+        return !(b.label && b.label.indexOf("Exercise Bike") !== -1);
+      });
+    }
+  });
+
   render();
 })();
 
