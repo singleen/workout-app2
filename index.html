@@ -1103,6 +1103,154 @@ state.week = w;
     }
   });
 
+
+  // ===== v50 leg day optimization overrides =====
+  function setSessionV50(weekKey, dayKey, title, notes, blocks){
+    if(!PLAN[weekKey] || !PLAN[weekKey][dayKey]) return;
+    PLAN[weekKey][dayKey].title = title;
+    PLAN[weekKey][dayKey].notes = notes;
+    PLAN[weekKey][dayKey].blocks = blocks;
+  }
+
+  // ----- Strength Week -----
+  setSessionV50("week4","Fri","Heavy Legs","Strength focus. Build force and glute power. Keep reps clean and leave 1–2 reps in reserve.",[
+    { label:"Warm-up", items:[
+      "5–8 min incline walk or bike",
+      "10 bodyweight squats",
+      "10 glute bridges",
+      "10 hip hinges",
+      "Optional: lateral band walks"
+    ]},
+    { label:"Power Primer", items:[
+      "Jump Squats: 3x5 (fresh, fast, explosive; full rest)"
+    ]},
+    { label:"Posterior Chain", items:[
+      "DB Hip Thrust: 3–4x8–12 (1 sec squeeze at top)"
+    ]},
+    { label:"Primary Compound Lift", items:[
+      "Leg Press: 4x6–10 heavy"
+    ]},
+    { label:"Unilateral Strength", items:[
+      "Bulgarian Split Squats: 3x8–10/leg"
+    ]},
+    { label:"Stability + Downhill Control", items:[
+      "BOSU Step-Downs: 2–3x8/leg (3–4 sec lowering)"
+    ]},
+    { label:"Hamstrings", items:[
+      "Leg Curl Machine: 3x10–15"
+    ]},
+    { label:"Quad Isolation", items:[
+      "Leg Extension: 3x12–15 (pause at top)"
+    ]},
+    { label:"Calves", items:[
+      "Standing or Machine Calf Raises: 4x12–20 (slow tempo)"
+    ]}
+  ]);
+
+  setSessionV50("week4","Sun","Backpacking Legs","Endurance + trail durability. Alternate every other week with an actual 10-mile hike using the 40-lb vest when weather supports it.",[
+    { label:"Warm-up", items:[
+      "5 min incline walk",
+      "10 bodyweight squats",
+      "10 glute bridges",
+      "10 step-ups each leg",
+      "Optional: tib raises"
+    ]},
+    { label:"Primary Hiking Movement", items:[
+      "Continuous DB Step-Ups: 3–4 sets of 60–90 sec continuous climbing"
+    ]},
+    { label:"Main Squat Strength", items:[
+      "Double DB Front Squats: 3x8–10"
+    ]},
+    { label:"Stability / Downhill Control", items:[
+      "Slow Box Step-Downs: 2–3x8/leg (3–4 sec lowering)"
+    ]},
+    { label:"Quad Endurance", items:[
+      "Heel-Elevated Squats: 3x12–15"
+    ]},
+    { label:"Isometric Quad Strength", items:[
+      "Wall Sit: 3 rounds x 45–60 sec"
+    ]},
+    { label:"Quad Burnout Finisher", items:[
+      "Squat Pulses: 2 rounds x 20–30"
+    ]},
+    { label:"Core Stability", items:[
+      "P90X Ab Ripper: 15 min"
+    ]}
+  ]);
+
+  // ----- Capacity Week -----
+  setSessionV50("weekX","Fri","Heavy Legs","Capacity focus. More reps, shorter rests, controlled tempo, and no grinders.",[
+    { label:"Warm-up", items:[
+      "5–8 min incline walk or bike",
+      "10 bodyweight squats",
+      "10 glute bridges",
+      "10 hip hinges",
+      "Optional: lateral band walks"
+    ]},
+    { label:"Power Primer", items:[
+      "Jump Squats: 3x5 (fresh, fast, explosive; full rest)"
+    ]},
+    { label:"Posterior Chain", items:[
+      "DB Hip Thrust: 3–4x12–15"
+    ]},
+    { label:"Primary Compound Lift", items:[
+      "Leg Press: 3x10–12"
+    ]},
+    { label:"Unilateral Strength", items:[
+      "Bulgarian Split Squats: 3x10/leg"
+    ]},
+    { label:"Stability + Downhill Control", items:[
+      "BOSU Step-Downs: 3x10/leg (3–4 sec lowering)"
+    ]},
+    { label:"Hamstrings", items:[
+      "Leg Curl Machine: 3x12–15"
+    ]},
+    { label:"Quad Isolation", items:[
+      "Leg Extension: 3x15"
+    ]},
+    { label:"Calves", items:[
+      "Standing or Machine Calf Raises: 4x15–20"
+    ]}
+  ]);
+
+  setSessionV50("weekX","Sun","Backpacking Legs","Capacity focus. Alternate every other week with an actual 10-mile hike using the 40-lb vest when weather supports it.",[
+    { label:"Warm-up", items:[
+      "5 min incline walk",
+      "10 bodyweight squats",
+      "10 glute bridges",
+      "10 step-ups each leg",
+      "Optional: tib raises"
+    ]},
+    { label:"Primary Hiking Movement", items:[
+      "Continuous DB Step-Ups: 3–4 sets of 60–90 sec continuous climbing"
+    ]},
+    { label:"Main Squat Strength", items:[
+      "Double DB Front Squats: 3x10–12"
+    ]},
+    { label:"Downhill Endurance Upgrade", items:[
+      "Eccentric Slow Box Step-Downs: 3x8–10/leg (4–5 sec lowering)"
+    ]},
+    { label:"Quad Endurance", items:[
+      "Heel-Elevated Squats: 3x15"
+    ]},
+    { label:"Isometric Quad Strength", items:[
+      "Wall Sit: 3 rounds x 60 sec"
+    ]},
+    { label:"Quad Burnout Finisher", items:[
+      "Squat Pulses: 3 rounds x 30"
+    ]},
+    { label:"Core Stability", items:[
+      "P90X Ab Ripper: 15 min"
+    ]}
+  ]);
+
+  setSessionV50("week4","Sat","Yoga / Recovery","Recovery day. Keep it easy and come out feeling better than you started.",[
+    { label:"Options", items:["Yoga: 45 min","Easy walk: 20–30 min","Mobility / stretch: 10–15 min"] }
+  ]);
+  setSessionV50("weekX","Sat","Yoga / Recovery","Recovery day. Keep it easy and come out feeling better than you started.",[
+    { label:"Options", items:["Yoga: 45 min","Easy walk: 20–30 min","Mobility / stretch: 10–15 min"] }
+  ]);
+
   render();
 })();
 
