@@ -149,6 +149,19 @@
       font-size:.9rem;
       background:#fff;
     }
+
+    .notebox{
+      width:100%;
+      min-height:44px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      font-size:.9rem;
+      background:#fff;
+      resize:vertical;
+      font-family:inherit;
+      line-height:1.35;
+    }
     @media (max-width:640px){
       header h1{font-size:1.4rem}
       .card{padding:14px}
@@ -218,6 +231,16 @@
       </table>
     </div>
 
+
+    <div class="card">
+      <h2 class="section-title">Saved Weights</h2>
+      <p class="subtle">Weight entries now save on this device and should reappear when you close and reopen the app.</p>
+      <div class="pillbar">
+        <button class="pill" id="saveStatus">Auto-save: On</button>
+        <button class="togglebtn secondary" id="clearWeightsBtn" type="button">Clear All Saved Weights</button>
+      </div>
+    </div>
+
     <div class="card">
       <h2 class="section-title">Choose Workout</h2>
       <div class="pillbar" id="tabs">
@@ -245,15 +268,15 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>DB Bench</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Bench"></td><td>3–4</td><td>5–8</td><td>Add 1 back-off set of 10–12</td></tr>
-            <tr><td>1-Arm Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm Row"></td><td>3–4</td><td>6–8</td><td>Add 1 back-off set of 10–12</td></tr>
-            <tr><td>Pull-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Pull-ups"></td><td>3</td><td>5–8</td><td>Add 1 back-off set of 10–12 (assisted)</td></tr>
-            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>3</td><td>6–8</td><td>Add 1 back-off set of 10–12</td></tr>
-            <tr><td>DB Fly</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Fly"></td><td>3</td><td>10</td><td>No back-off</td></tr>
-            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>3</td><td>10</td><td>No back-off</td></tr>
-            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>3</td><td>10</td><td>No back-off</td></tr>
-            <tr><td>Finisher Circuit</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher Circuit"></td><td>2–3 rounds</td><td>12 each</td><td>12 pull-ups, 12 pushups, 12 curls, 12 tris, 12 flys</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>DB Bench</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Bench"></td><td>3–4</td><td>5–8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12</textarea></td></tr>
+            <tr><td>1-Arm Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm Row"></td><td>3–4</td><td>6–8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12</textarea></td></tr>
+            <tr><td>Pull-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Pull-ups"></td><td>3</td><td>5–8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12 (assisted)</textarea></td></tr>
+            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>3</td><td>6–8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12</textarea></td></tr>
+            <tr><td>DB Fly</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Fly"></td><td>3</td><td>10</td><td><textarea class="notebox" aria-label="Notes">No back-off</textarea></td></tr>
+            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>3</td><td>10</td><td><textarea class="notebox" aria-label="Notes">No back-off</textarea></td></tr>
+            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>3</td><td>10</td><td><textarea class="notebox" aria-label="Notes">No back-off</textarea></td></tr>
+            <tr><td>Finisher Circuit</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher Circuit"></td><td>2–3 rounds</td><td>12 each</td><td><textarea class="notebox" aria-label="Notes">12 pull-ups, 12 pushups, 12 curls, 12 tris, 12 flys</textarea></td></tr>
           </tbody>
         </table>
         <div class="note">Rest 2–3 minutes on bench, rows, pull-ups, and shoulder press. Rest 60–90 seconds on flys and arm work.</div>
@@ -265,15 +288,15 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>DB Bench</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Bench"></td><td>3</td><td>10–12</td><td>Controlled reps</td></tr>
-            <tr><td>1-Arm Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm Row"></td><td>3</td><td>10–12</td><td>Full stretch</td></tr>
-            <tr><td>Pull-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Pull-ups"></td><td>3</td><td>8–10</td><td>Use assistance if needed</td></tr>
-            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>3</td><td>10–12</td><td>Steady pace</td></tr>
-            <tr><td>DB Fly</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Fly"></td><td>3</td><td>12–15</td><td>Light burn, no strain</td></tr>
-            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>3</td><td>12–15</td><td>Short rest</td></tr>
-            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>3</td><td>12–15</td><td>Short rest</td></tr>
-            <tr><td>Finisher Circuit</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher Circuit"></td><td>2–3 rounds</td><td>15 each</td><td>12 pull-ups, 12 pushups, 12 curls, 12 tris, 12 flys</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>DB Bench</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Bench"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">Controlled reps</textarea></td></tr>
+            <tr><td>1-Arm Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm Row"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">Full stretch</textarea></td></tr>
+            <tr><td>Pull-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Pull-ups"></td><td>3</td><td>8–10</td><td><textarea class="notebox" aria-label="Notes">Use assistance if needed</textarea></td></tr>
+            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">Steady pace</textarea></td></tr>
+            <tr><td>DB Fly</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Fly"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Light burn, no strain</textarea></td></tr>
+            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Short rest</textarea></td></tr>
+            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Short rest</textarea></td></tr>
+            <tr><td>Finisher Circuit</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher Circuit"></td><td>2–3 rounds</td><td>15 each</td><td><textarea class="notebox" aria-label="Notes">12 pull-ups, 12 pushups, 12 curls, 12 tris, 12 flys</textarea></td></tr>
           </tbody>
         </table>
         <div class="note green">Rest 45–75 seconds between most sets. Goal is muscular endurance and total work, not grinding.</div>
@@ -290,16 +313,16 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>12 min stairs, bodyweight squats, hip hinges, glute bridges, jump squats</td></tr>
-            <tr><td>Leg Press</td><td><input type="text" class="wtbox" aria-label="Weight used for Squat"></td><td>4</td><td>4–6</td><td>Add 1 back-off set of 8–10</td></tr>
-            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for RDL"></td><td>3</td><td>6–8</td><td>Add 1 back-off set of 10–12</td></tr>
-            <tr><td>DB Hip Thrust</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Hip Thrust"></td><td>3</td><td>8</td><td>Add 1 back-off set of 10–12</td></tr>
-            <tr><td>Leg Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Curl"></td><td>3</td><td>10–12</td><td>Controlled squeeze</td></tr>
-            <tr><td>Leg Extension</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Extension"></td><td>3</td><td>10–12</td><td>Controlled lockout</td></tr>
-            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>8–10</td><td>Optional back-off only if feeling good</td></tr>
-            <tr><td>Step-downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-downs"></td><td>3</td><td>10</td><td>Stability and control</td></tr>
-            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>12</td><td>Pause at top</td></tr>
-            <tr><td>Tibialis Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Tibialis Raises"></td><td>3</td><td>15</td><td>Controlled</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">12 min stairs, bodyweight squats, hip hinges, glute bridges, jump squats</textarea></td></tr>
+            <tr><td>Leg Press</td><td><input type="text" class="wtbox" aria-label="Weight used for Squat"></td><td>4</td><td>4–6</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 8–10</textarea></td></tr>
+            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for RDL"></td><td>3</td><td>6–8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12</textarea></td></tr>
+            <tr><td>DB Hip Thrust</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Hip Thrust"></td><td>3</td><td>8</td><td><textarea class="notebox" aria-label="Notes">Add 1 back-off set of 10–12</textarea></td></tr>
+            <tr><td>Leg Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Curl"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">Controlled squeeze</textarea></td></tr>
+            <tr><td>Leg Extension</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Extension"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">Controlled lockout</textarea></td></tr>
+            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>8–10</td><td><textarea class="notebox" aria-label="Notes">Optional back-off only if feeling good</textarea></td></tr>
+            <tr><td>Step-downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-downs"></td><td>3</td><td>10</td><td><textarea class="notebox" aria-label="Notes">Stability and control</textarea></td></tr>
+            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Pause at top</textarea></td></tr>
+            <tr><td>Tibialis Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Tibialis Raises"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Controlled</textarea></td></tr>
           </tbody>
         </table>
         <div class="note gold">
@@ -314,16 +337,16 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>12 min stairs, bodyweight squats, hip hinges, glute bridges, jump squats</td></tr>
-            <tr><td>Leg Press</td><td><input type="text" class="wtbox" aria-label="Weight used for Squat"></td><td>3</td><td>10–12</td><td>No back-off</td></tr>
-            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for RDL"></td><td>3</td><td>10–12</td><td>No back-off</td></tr>
-            <tr><td>DB Hip Thrust</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Hip Thrust"></td><td>3</td><td>12</td><td>Smooth pace</td></tr>
-            <tr><td>Leg Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Curl"></td><td>3</td><td>12–15</td><td>Controlled squeeze</td></tr>
-            <tr><td>Leg Extension</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Extension"></td><td>3</td><td>12–15</td><td>Controlled lockout</td></tr>
-            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>12</td><td>Drive through full foot</td></tr>
-            <tr><td>Step-downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-downs"></td><td>3</td><td>12</td><td>Controlled lowering</td></tr>
-            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>15</td><td>Continuous tension</td></tr>
-            <tr><td>Tibialis Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Tibialis Raises"></td><td>3</td><td>20</td><td>Burn work</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">12 min stairs, bodyweight squats, hip hinges, glute bridges, jump squats</textarea></td></tr>
+            <tr><td>Leg Press</td><td><input type="text" class="wtbox" aria-label="Weight used for Squat"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">No back-off</textarea></td></tr>
+            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for RDL"></td><td>3</td><td>10–12</td><td><textarea class="notebox" aria-label="Notes">No back-off</textarea></td></tr>
+            <tr><td>DB Hip Thrust</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Hip Thrust"></td><td>3</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Smooth pace</textarea></td></tr>
+            <tr><td>Leg Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Curl"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Controlled squeeze</textarea></td></tr>
+            <tr><td>Leg Extension</td><td><input type="text" class="wtbox" aria-label="Weight used for Leg Extension"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Controlled lockout</textarea></td></tr>
+            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Drive through full foot</textarea></td></tr>
+            <tr><td>Step-downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-downs"></td><td>3</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Controlled lowering</textarea></td></tr>
+            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Continuous tension</textarea></td></tr>
+            <tr><td>Tibialis Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Tibialis Raises"></td><td>3</td><td>20</td><td><textarea class="notebox" aria-label="Notes">Burn work</textarea></td></tr>
           </tbody>
         </table>
         <div class="note green">Rest 45–75 seconds. Build endurance without wrecking recovery for golf and hiking.</div>
@@ -340,16 +363,16 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>1-Arm DB Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm DB Row"></td><td>3</td><td>8–12</td><td>Controlled pull</td></tr>
-            <tr><td>Decline Pushups</td><td><input type="text" class="wtbox" aria-label="Weight used for Decline Pushups"></td><td>3</td><td>6–8</td><td>Explosive but clean</td></tr>
-            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox" aria-label="Weight used for Band Pull-aparts"></td><td>3</td><td>12</td><td>Scap control</td></tr>
-            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>2</td><td>8–12</td><td>Controlled press</td></tr>
-            <tr><td>DB Flys</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Flys"></td><td>2</td><td>15–20</td><td>Light stretch and control</td></tr>
-            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>2–3</td><td>8</td><td>Light to moderate</td></tr>
-            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>2–3</td><td>8</td><td>Easy quality reps</td></tr>
-            <tr><td>External Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for External Rotations"></td><td>2</td><td>12</td><td>Shoulder health</td></tr>
-            <tr><td>T-Spine Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for T-Spine Rotations"></td><td>2</td><td>10/side</td><td>Mobility focus</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>1-Arm DB Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm DB Row"></td><td>3</td><td>8–12</td><td><textarea class="notebox" aria-label="Notes">Controlled pull</textarea></td></tr>
+            <tr><td>Decline Pushups</td><td><input type="text" class="wtbox" aria-label="Weight used for Decline Pushups"></td><td>3</td><td>6–8</td><td><textarea class="notebox" aria-label="Notes">Explosive but clean</textarea></td></tr>
+            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox" aria-label="Weight used for Band Pull-aparts"></td><td>3</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Scap control</textarea></td></tr>
+            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>2</td><td>8–12</td><td><textarea class="notebox" aria-label="Notes">Controlled press</textarea></td></tr>
+            <tr><td>DB Flys</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Flys"></td><td>2</td><td>15–20</td><td><textarea class="notebox" aria-label="Notes">Light stretch and control</textarea></td></tr>
+            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>2–3</td><td>8</td><td><textarea class="notebox" aria-label="Notes">Light to moderate</textarea></td></tr>
+            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>2–3</td><td>8</td><td><textarea class="notebox" aria-label="Notes">Easy quality reps</textarea></td></tr>
+            <tr><td>External Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for External Rotations"></td><td>2</td><td>12</td><td><textarea class="notebox" aria-label="Notes">Shoulder health</textarea></td></tr>
+            <tr><td>T-Spine Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for T-Spine Rotations"></td><td>2</td><td>10/side</td><td><textarea class="notebox" aria-label="Notes">Mobility focus</textarea></td></tr>
           </tbody>
         </table>
         <div class="note">Keep this session crisp. Finish feeling better than when you started.</div>
@@ -361,16 +384,16 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>1-Arm DB Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm DB Row"></td><td>3</td><td>8–12</td><td>Controlled pull</td></tr>
-            <tr><td>Decline Pushups</td><td><input type="text" class="wtbox" aria-label="Weight used for Decline Pushups"></td><td>3</td><td>12–15</td><td>Steady pace</td></tr>
-            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox" aria-label="Weight used for Band Pull-aparts"></td><td>3</td><td>15</td><td>Short rest</td></tr>
-            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>2</td><td>8–12</td><td>Controlled press</td></tr>
-            <tr><td>DB Flys</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Flys"></td><td>2</td><td>15–20</td><td>Light stretch and control</td></tr>
-            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>2–3</td><td>12–15</td><td>Moderate load</td></tr>
-            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>2–3</td><td>12–15</td><td>Moderate load</td></tr>
-            <tr><td>External Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for External Rotations"></td><td>2</td><td>15</td><td>Shoulder health</td></tr>
-            <tr><td>T-Spine Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for T-Spine Rotations"></td><td>2</td><td>12/side</td><td>Mobility focus</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>1-Arm DB Row</td><td><input type="text" class="wtbox" aria-label="Weight used for 1-Arm DB Row"></td><td>3</td><td>8–12</td><td><textarea class="notebox" aria-label="Notes">Controlled pull</textarea></td></tr>
+            <tr><td>Decline Pushups</td><td><input type="text" class="wtbox" aria-label="Weight used for Decline Pushups"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Steady pace</textarea></td></tr>
+            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox" aria-label="Weight used for Band Pull-aparts"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Short rest</textarea></td></tr>
+            <tr><td>DB Shoulder Press</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Shoulder Press"></td><td>2</td><td>8–12</td><td><textarea class="notebox" aria-label="Notes">Controlled press</textarea></td></tr>
+            <tr><td>DB Flys</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Flys"></td><td>2</td><td>15–20</td><td><textarea class="notebox" aria-label="Notes">Light stretch and control</textarea></td></tr>
+            <tr><td>DB Curl</td><td><input type="text" class="wtbox" aria-label="Weight used for DB Curl"></td><td>2–3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Moderate load</textarea></td></tr>
+            <tr><td>Triceps</td><td><input type="text" class="wtbox" aria-label="Weight used for Triceps"></td><td>2–3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Moderate load</textarea></td></tr>
+            <tr><td>External Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for External Rotations"></td><td>2</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Shoulder health</textarea></td></tr>
+            <tr><td>T-Spine Rotations</td><td><input type="text" class="wtbox" aria-label="Weight used for T-Spine Rotations"></td><td>2</td><td>12/side</td><td><textarea class="notebox" aria-label="Notes">Mobility focus</textarea></td></tr>
           </tbody>
         </table>
         <div class="note green">Minimal fatigue, more blood flow, more durability.</div>
@@ -379,7 +402,7 @@
 
     <section id="backpacking" class="workout-section card hidden">
       <h2 class="section-title">Backpacking Legs</h2>
-      <p class="subtle">Strength Week uses straight sets. Capacity Week becomes a hiking-conditioning circuit.</p>
+      <p class="subtle">Strength Week uses straight sets. Capacity Week becomes a hiking-conditioning circuit. Move exercise to exercise with little rest. Rest 2 minutes between rounds.</p>
 
       <div class="mode strength-mode">
         <table>
@@ -387,17 +410,17 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>5 min incline walk, bodyweight step-ups, reverse lunges, calf raises, squats, glute bridges</td></tr>
-            <tr><td>Double DB Squat</td><td><input type="text" class="wtbox" aria-label="Weight used for Double DB Squat"></td><td>3</td><td>8–10</td><td>Straight sets</td></tr>
-            <tr><td>Static Lunges</td><td><input type="text" class="wtbox" aria-label="Weight used for Static Lunges"></td><td>3</td><td>10/leg</td><td>Straight sets</td></tr>
-            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>10/leg</td><td>Straight sets</td></tr>
-            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Hungarian Split Squats"></td><td>3</td><td>10/leg</td><td>Controlled split-stance work</td></tr>
-            <tr><td>Eccentric Slow Box Step-Downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Eccentric Slow Box Step-Downs"></td><td>3</td><td>10/leg</td><td>Slow lowering</td></tr>
-            <tr><td>Heel-Elevated Goblet Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Heel-Elevated Goblet Squats"></td><td>3</td><td>15</td><td>Quad focus</td></tr>
-            <tr><td>Wall Sit</td><td><input type="text" class="wtbox" aria-label="Weight used for Wall Sit"></td><td>3</td><td>60 sec</td><td>Steady hold</td></tr>
-            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>12–15</td><td>Full stretch</td></tr>
-            <tr><td>Finisher</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher"></td><td>3</td><td>30</td><td>Squat Pulses</td></tr>
-            <tr><td>Core</td><td><input type="text" class="wtbox" aria-label="Weight used for Core"></td><td>3</td><td>15</td><td>Choose Ab Ripper/core move</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">5 min incline walk, bodyweight step-ups, reverse lunges, calf raises, squats, glute bridges</textarea></td></tr>
+            <tr><td>Double DB Squat</td><td><input type="text" class="wtbox" aria-label="Weight used for Double DB Squat"></td><td>3</td><td>8–10</td><td><textarea class="notebox" aria-label="Notes">Straight sets</textarea></td></tr>
+            <tr><td>Static Lunges</td><td><input type="text" class="wtbox" aria-label="Weight used for Static Lunges"></td><td>3</td><td>10/leg</td><td><textarea class="notebox" aria-label="Notes">Straight sets</textarea></td></tr>
+            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>10/leg</td><td><textarea class="notebox" aria-label="Notes">Straight sets</textarea></td></tr>
+            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Hungarian Split Squats"></td><td>3</td><td>10/leg</td><td><textarea class="notebox" aria-label="Notes">Controlled split-stance work</textarea></td></tr>
+            <tr><td>Eccentric Slow Box Step-Downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Eccentric Slow Box Step-Downs"></td><td>3</td><td>10/leg</td><td><textarea class="notebox" aria-label="Notes">Slow lowering</textarea></td></tr>
+            <tr><td>Heel-Elevated Goblet Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Heel-Elevated Goblet Squats"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Quad focus</textarea></td></tr>
+            <tr><td>Wall Sit</td><td><input type="text" class="wtbox" aria-label="Weight used for Wall Sit"></td><td>3</td><td>60 sec</td><td><textarea class="notebox" aria-label="Notes">Steady hold</textarea></td></tr>
+            <tr><td>Calf Raises</td><td><input type="text" class="wtbox" aria-label="Weight used for Calf Raises"></td><td>3</td><td>12–15</td><td><textarea class="notebox" aria-label="Notes">Full stretch</textarea></td></tr>
+            <tr><td>Finisher</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher"></td><td>3</td><td>30</td><td><textarea class="notebox" aria-label="Notes">Squat Pulses</textarea></td></tr>
+            <tr><td>Core</td><td><input type="text" class="wtbox" aria-label="Weight used for Core"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Choose Ab Ripper/core move</textarea></td></tr>
           </tbody>
         </table>
         <div class="note">Rest about 60–90 seconds between sets. Goal is hill strength and pack support, not rushing.</div>
@@ -409,15 +432,16 @@
             <tr><th>Exercise</th><th>Wt</th><th>Rounds</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>5 min incline walk, bodyweight step-ups, reverse lunges, calf raises</td></tr>
-            <tr><td>Double DB Squat</td><td><input type="text" class="wtbox" aria-label="Weight used for Double DB Squat"></td><td>3</td><td>15</td><td rowspan="7">Move exercise to exercise with little rest. Rest 2 minutes between rounds.</td></tr>
-            <tr><td>Static Lunges</td><td><input type="text" class="wtbox" aria-label="Weight used for Static Lunges"></td><td>3</td><td>15/leg</td></tr>
-            <tr><td>Step-ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Step-ups"></td><td>3</td><td>15/leg</td></tr>
-            <tr><td>Continuous DB Step-Ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Continuous DB Step-Ups"></td><td>3</td><td>15/leg</td></tr>
-            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Hungarian Split Squats"></td><td>3</td><td>12/leg</td></tr>
-            <tr><td>Eccentric Slow Box Step-Downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Eccentric Slow Box Step-Downs"></td><td>3</td><td>10/leg</td></tr>
-            <tr><td>Finisher</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher"></td><td>3</td><td>30</td><td>Squat Pulses</td></tr>
-            <tr><td>Core</td><td><input type="text" class="wtbox" aria-label="Weight used for Core"></td><td>3</td><td>20</td><td>Core work</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">5 min incline walk, bodyweight step-ups, reverse lunges, calf raises</textarea></td></tr>
+            <tr><td>Double DB Squat</td><td><input type="text" class="wtbox" aria-label="Weight used for Double DB Squat"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Move exercise to exercise with little rest. Rest 2 minutes between rounds.</textarea></td></tr>
+            <tr><td>Static Lunges</td><td><input type="text" class="wtbox" aria-label="Weight used for Static Lunges"></td><td>3</td><td>15/leg</td><td><textarea class="notebox" aria-label="Notes">Continuous circuit flow</textarea></td></tr>
+            <tr><td>Continuous DB Step-Ups</td><td><input type="text" class="wtbox" aria-label="Weight used for Continuous DB Step-Ups"></td><td>3</td><td>15/leg</td><td><textarea class="notebox" aria-label="Notes">Continuous stepping effort</textarea></td></tr>
+            <tr><td>Hungarian Split Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Hungarian Split Squats"></td><td>3</td><td>12/leg</td><td><textarea class="notebox" aria-label="Notes">Controlled split-stance work</textarea></td></tr>
+            <tr><td>Eccentric Slow Box Step-Downs</td><td><input type="text" class="wtbox" aria-label="Weight used for Eccentric Slow Box Step-Downs"></td><td>3</td><td>10/leg</td><td><textarea class="notebox" aria-label="Notes">Slow lowering</textarea></td></tr>
+            <tr><td>Heel-Elevated Goblet Squats</td><td><input type="text" class="wtbox" aria-label="Weight used for Heel-Elevated Goblet Squats"></td><td>3</td><td>15</td><td><textarea class="notebox" aria-label="Notes">Quad focus</textarea></td></tr>
+            <tr><td>Wall Sit</td><td><input type="text" class="wtbox" aria-label="Weight used for Wall Sit"></td><td>3</td><td>60 sec</td><td><textarea class="notebox" aria-label="Notes">Steady hold</textarea></td></tr>
+            <tr><td>Finisher</td><td><input type="text" class="wtbox" aria-label="Weight used for Finisher"></td><td>3</td><td>30</td><td><textarea class="notebox" aria-label="Notes">Squat Pulses</textarea></td></tr>
+            <tr><td>Core</td><td><input type="text" class="wtbox" aria-label="Weight used for Core"></td><td>3</td><td>20</td><td><textarea class="notebox" aria-label="Notes">Core work</textarea></td></tr>
           </tbody>
         </table>
         <div class="note green">This is your hiking-conditioning day. Keep moving, breathe hard, and build long-duration leg endurance.</div>
@@ -435,13 +459,13 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>Conditioning Option</td><td><input type="text" class="wtbox" aria-label="Weight used for Conditioning Option"></td><td>1</td><td>18 holes or 45–60 min</td><td>Golf - 18 holes walking or Incline Treadmill (45-60 min)</td></tr>
-            <tr><td>Hip Flexor Stretch</td><td><input type="text" class="wtbox"></td><td>1–2 min/side</td><td>—</td><td>Long hold stretch</td></tr>
-            <tr><td>Thoracic Rotations</td><td><input type="text" class="wtbox"></td><td>2</td><td>8/side</td><td>Controlled rotation</td></tr>
-            <tr><td>Dead Bug</td><td><input type="text" class="wtbox"></td><td>2</td><td>10/side</td><td>Core stability</td></tr>
-            <tr><td>Side Plank</td><td><input type="text" class="wtbox"></td><td>2</td><td>30 sec/side</td><td>Core stability</td></tr>
-            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox"></td><td>2</td><td>15–20</td><td>Shoulder health</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>Conditioning Option</td><td><input type="text" class="wtbox" aria-label="Weight used for Conditioning Option"></td><td>1</td><td>18 holes or 45–60 min</td><td><textarea class="notebox" aria-label="Notes">Golf - 18 holes walking or Incline Treadmill (45-60 min)</textarea></td></tr>
+            <tr><td>Hip Flexor Stretch</td><td><input type="text" class="wtbox"></td><td>1–2 min/side</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Long hold stretch</textarea></td></tr>
+            <tr><td>Thoracic Rotations</td><td><input type="text" class="wtbox"></td><td>2</td><td>8/side</td><td><textarea class="notebox" aria-label="Notes">Controlled rotation</textarea></td></tr>
+            <tr><td>Dead Bug</td><td><input type="text" class="wtbox"></td><td>2</td><td>10/side</td><td><textarea class="notebox" aria-label="Notes">Core stability</textarea></td></tr>
+            <tr><td>Side Plank</td><td><input type="text" class="wtbox"></td><td>2</td><td>30 sec/side</td><td><textarea class="notebox" aria-label="Notes">Core stability</textarea></td></tr>
+            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox"></td><td>2</td><td>15–20</td><td><textarea class="notebox" aria-label="Notes">Shoulder health</textarea></td></tr>
 </tbody>
         </table>
         <div class="note">Keep this day easy. Goal is recovery, mobility, and staying loose for golf and hiking.</div>
@@ -453,13 +477,13 @@
             <tr><th>Exercise</th><th>Wt</th><th>Sets</th><th>Reps</th><th>Notes</th></tr>
           </thead>
           <tbody>
-            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td>Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</td></tr>
-            <tr><td>Conditioning Option</td><td><input type="text" class="wtbox" aria-label="Weight used for Conditioning Option"></td><td>1</td><td>18 holes or 45–60 min</td><td>Golf - 18 holes walking or Incline Treadmill (45-60 min)</td></tr>
-            <tr><td>Hip Flexor Stretch</td><td><input type="text" class="wtbox"></td><td>1–2 min/side</td><td>—</td><td>Long hold stretch</td></tr>
-            <tr><td>Thoracic Rotations</td><td><input type="text" class="wtbox"></td><td>2</td><td>8/side</td><td>Controlled rotation</td></tr>
-            <tr><td>Dead Bug</td><td><input type="text" class="wtbox"></td><td>2</td><td>10/side</td><td>Core stability</td></tr>
-            <tr><td>Side Plank</td><td><input type="text" class="wtbox"></td><td>2</td><td>30 sec/side</td><td>Core stability</td></tr>
-            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox"></td><td>2</td><td>15–20</td><td>Shoulder health</td></tr>
+            <tr><td>Warmup</td><td><input type="text" class="wtbox" aria-label="Weight used for Warmup"></td><td>1 round</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Upper Body PT: prone overhead stretches, corner stretch, doorway stretch, scap retractions, neck stretches, band rotations</textarea></td></tr>
+            <tr><td>Conditioning Option</td><td><input type="text" class="wtbox" aria-label="Weight used for Conditioning Option"></td><td>1</td><td>18 holes or 45–60 min</td><td><textarea class="notebox" aria-label="Notes">Golf - 18 holes walking or Incline Treadmill (45-60 min)</textarea></td></tr>
+            <tr><td>Hip Flexor Stretch</td><td><input type="text" class="wtbox"></td><td>1–2 min/side</td><td>—</td><td><textarea class="notebox" aria-label="Notes">Long hold stretch</textarea></td></tr>
+            <tr><td>Thoracic Rotations</td><td><input type="text" class="wtbox"></td><td>2</td><td>8/side</td><td><textarea class="notebox" aria-label="Notes">Controlled rotation</textarea></td></tr>
+            <tr><td>Dead Bug</td><td><input type="text" class="wtbox"></td><td>2</td><td>10/side</td><td><textarea class="notebox" aria-label="Notes">Core stability</textarea></td></tr>
+            <tr><td>Side Plank</td><td><input type="text" class="wtbox"></td><td>2</td><td>30 sec/side</td><td><textarea class="notebox" aria-label="Notes">Core stability</textarea></td></tr>
+            <tr><td>Band Pull-aparts</td><td><input type="text" class="wtbox"></td><td>2</td><td>15–20</td><td><textarea class="notebox" aria-label="Notes">Shoulder health</textarea></td></tr>
 </tbody>
         </table>
         <div class="note green">This is still a recovery day. Move, loosen up, and finish feeling better than when you started.</div>
@@ -507,6 +531,145 @@
     strengthBtn.addEventListener('click', () => showMode('strength'));
     capacityBtn.addEventListener('click', () => showMode('capacity'));
 
+    function slugify(text){
+      return String(text)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
+
+    function assignWeightIds(){
+      const workoutSections = document.querySelectorAll('.workout-section');
+      workoutSections.forEach(section => {
+        const sectionId = section.id;
+        const modeDefs = [
+          { selector: '.strength-mode', modeName: 'strength' },
+          { selector: '.capacity-mode', modeName: 'capacity' }
+        ];
+
+        modeDefs.forEach(modeDef => {
+          const block = section.querySelector(modeDef.selector);
+          if(!block) return;
+
+          const rows = block.querySelectorAll('tbody tr');
+          rows.forEach((row, index) => {
+            const firstCell = row.querySelector('td');
+            const input = row.querySelector('.wtbox');
+            if(!firstCell || !input) return;
+
+            const exercise = slugify(firstCell.textContent.trim() || ('row-' + (index + 1)));
+            const key = 'wg-v58-' + sectionId + '-' + modeDef.modeName + '-' + exercise + '-' + (index + 1);
+            input.dataset.storageKey = key;
+            input.id = key;
+          });
+        });
+      });
+    }
+
+    function assignNoteIds(){
+      const workoutSections = document.querySelectorAll('.workout-section');
+      workoutSections.forEach(section => {
+        const sectionId = section.id;
+        const modeDefs = [
+          { selector: '.strength-mode', modeName: 'strength' },
+          { selector: '.capacity-mode', modeName: 'capacity' }
+        ];
+
+        modeDefs.forEach(modeDef => {
+          const block = section.querySelector(modeDef.selector);
+          if(!block) return;
+
+          const rows = block.querySelectorAll('tbody tr');
+          rows.forEach((row, index) => {
+            const firstCell = row.querySelector('td');
+            const note = row.querySelector('.notebox');
+            if(!firstCell || !note) return;
+
+            const exercise = slugify(firstCell.textContent.trim() || ('row-' + (index + 1)));
+            const key = 'wg-v59-note-' + sectionId + '-' + modeDef.modeName + '-' + exercise + '-' + (index + 1);
+            note.dataset.storageKey = key;
+            note.id = key;
+          });
+        });
+      });
+    }
+
+    function loadWeights(){
+      document.querySelectorAll('.wtbox').forEach(input => {
+        const key = input.dataset.storageKey;
+        if(!key) return;
+        const saved = localStorage.getItem(key);
+        if(saved !== null){
+          input.value = saved;
+        }
+      });
+    }
+
+    function loadNotes(){
+      document.querySelectorAll('.notebox').forEach(input => {
+        const key = input.dataset.storageKey;
+        if(!key) return;
+        const saved = localStorage.getItem(key);
+        if(saved !== null){
+          input.value = saved;
+        }
+      });
+    }
+
+    function bindWeightAutosave(){
+      document.querySelectorAll('.wtbox').forEach(input => {
+        function saveValue(){
+          const key = input.dataset.storageKey;
+          if(!key) return;
+          localStorage.setItem(key, input.value);
+        }
+        input.addEventListener('input', saveValue);
+        input.addEventListener('change', saveValue);
+        input.addEventListener('blur', saveValue);
+      });
+    }
+
+    function bindNoteAutosave(){
+      document.querySelectorAll('.notebox').forEach(input => {
+        function saveValue(){
+          const key = input.dataset.storageKey;
+          if(!key) return;
+          localStorage.setItem(key, input.value);
+        }
+        input.addEventListener('input', saveValue);
+        input.addEventListener('change', saveValue);
+        input.addEventListener('blur', saveValue);
+      });
+    }
+
+    function clearAllSavedWeights(){
+      const keys = [];
+      for(let i = 0; i < localStorage.length; i++){
+        const key = localStorage.key(i);
+        if(key && (key.indexOf('wg-v58-') === 0 || key.indexOf('wg-v59-note-') === 0)){
+          keys.push(key);
+        }
+      }
+      keys.forEach(key => localStorage.removeItem(key));
+      document.querySelectorAll('.wtbox').forEach(input => {
+        input.value = '';
+      });
+      document.querySelectorAll('.notebox').forEach(input => {
+        input.value = '';
+      });
+    }
+
+    const clearWeightsBtn = document.getElementById('clearWeightsBtn');
+    if(clearWeightsBtn){
+      clearWeightsBtn.addEventListener('click', clearAllSavedWeights);
+    }
+
+    assignWeightIds();
+    assignNoteIds();
+    loadWeights();
+    loadNotes();
+    bindWeightAutosave();
+    bindNoteAutosave();
     showSection('ubfull');
     showMode('strength');
   </script>
